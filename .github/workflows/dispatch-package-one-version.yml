@@ -1,6 +1,7 @@
-name: Dispatch version to Repo B
+name: Dispatch version to Repo B (package-one)
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "package-one.json"
