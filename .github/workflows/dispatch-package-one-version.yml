@@ -1,0 +1,28 @@
+name: Dispatch version to Repo B
+
+on:
+  push:
+    paths:
+      - "package-one.json"
+
+jobs:
+  send-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version from package.json
+        id: pkg
+        run: echo "version=$(jq -r .version package-one.json)" >> $GITHUB_OUTPUT
+
+      - name: Send repository_dispatch to Repo B
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.REPO_B_PAT }}
+          repository: ethanWallace/repo-b
+          event-type: package-version-update
+          client-payload: |
+            {
+              "version": "${{ steps.pkg.outputs.version }}",
+              "match": "package-one"
+            }
