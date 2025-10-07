@@ -1,4 +1,4 @@
-name: Dispatch version to Repo B (package-two)
+name: Dispatch utility version to Repo B
 
 on:
   workflow_dispatch:

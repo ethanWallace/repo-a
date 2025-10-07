@@ -1,4 +1,4 @@
-name: Dispatch version to Repo B (package-one)
+name: Dispatch components version to Repo B
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
 
       - name: Read version from package.json
         id: pkg
-        run: echo "version=$(jq -r ."packages/web" components/.release-please-manifest.json)" >> $GITHUB_OUTPUT
+        run: echo "version=$(jq -r '.["packages/web"]' components/.release-please-manifest.json)" >> $GITHUB_OUTPUT
 
       - name: Send repository_dispatch to Repo B
         uses: peter-evans/repository-dispatch@v3
