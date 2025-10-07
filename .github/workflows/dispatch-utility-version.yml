@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "package-two.json"
+      - "utility/.release-please-manifest.json"
 
 jobs:
   send-version:
@@ -14,7 +14,7 @@ jobs:
 
       - name: Read version from package.json
         id: pkg
-        run: echo "version=$(jq -r .version package-two.json)" >> $GITHUB_OUTPUT
+        run: echo "version=$(jq -r .. utility/.release-please-manifest.json)" >> $GITHUB_OUTPUT
 
       - name: Send repository_dispatch to Repo B
         uses: peter-evans/repository-dispatch@v3
@@ -25,5 +25,5 @@ jobs:
           client-payload: |
             {
               "version": "${{ steps.pkg.outputs.version }}",
-              "match": "package-two"
+              "match": "@cdssnc/gcds-utility"
             }
